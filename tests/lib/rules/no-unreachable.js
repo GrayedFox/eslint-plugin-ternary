@@ -42,6 +42,11 @@ ruleTester.run('no-unreachable', rule, {
     {
       code: 'condition3 || condition2 || condition1 ? x : condition1 || condition4 ? y : z;',
       options: [{ allowDuplicateOrConditions: true }]
+    },
+    {
+      code:
+        "condition[0] === '!' && operators.length > 0 ? condition : operators.join('') + condition",
+      options: [{ allowDuplicateOrConditions: true }]
     }
   ],
 
