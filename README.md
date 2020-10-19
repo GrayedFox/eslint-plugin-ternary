@@ -7,8 +7,8 @@ The recommended config of this plugin sets default values on some existing core 
 enforce a consistent ternary style. Developers are free to tweak and overwrite any settings
 recommended by this plugin.
 
-[![Dependencies](https://david-dm.org/grayedfox/eslint-plugin-ternary.svg)](https://david-dm.org/getify/eslint-plugin-ternary)
-[![devDependencies](https://david-dm.org/grayedfox/eslint-plugin-ternary/dev-status.svg)](https://david-dm.org/getify/eslint-plugin-ternary?type=dev)
+[![Dependencies](https://david-dm.org/grayedfox/eslint-plugin-ternary.svg)](https://david-dm.org/grayedfox/eslint-plugin-ternary)
+[![devDependencies](https://david-dm.org/grayedfox/eslint-plugin-ternary/dev-status.svg)](https://david-dm.org/grayedfox/eslint-plugin-ternary?type=dev)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 - [Installation](#installation)
