@@ -1,6 +1,5 @@
-node_modules
+docs
 .idea
 .npmignore
 .eslintrc.json
-docs
 .github

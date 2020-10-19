@@ -11,8 +11,10 @@
   ],
   "author": "Che Fisher",
   "main": "lib/index.js",
+  "repository": "grayedfox/eslint-plugin-ternary",
   "scripts": {
-    "test": "mocha tests --recursive"
+    "test": "mocha tests --recursive",
+    "test:cli": "mocha"
   },
   "dependencies": {
     "requireindex": "~1.1.0"
@@ -36,6 +38,7 @@
   "prettier": {
     "semi": false,
     "singleQuote": true,
-    "proseWrap": "always"
+    "proseWrap": "always",
+    "printWidth": 100
   }
 }
