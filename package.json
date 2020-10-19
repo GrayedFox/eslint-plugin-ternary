@@ -1,0 +1,41 @@
+{
+  "name": "eslint-plugin-ternary",
+  "version": "1.0.0",
+  "description": "Catch logical and conditional errors inside of ternary conditions.",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin",
+    "ternary",
+    "nested-ternary"
+  ],
+  "author": "Che Fisher",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha tests --recursive"
+  },
+  "dependencies": {
+    "requireindex": "~1.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.1.0",
+    "eslint-config-prettier": "^3.0.1",
+    "eslint-plugin-eslint-plugin": "^2.2.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^2.6.2",
+    "mocha": "^7.2.0",
+    "prettier": "^1.14.2"
+  },
+  "peerDependencies": {
+    "eslint": ">=0.8.0"
+  },
+  "engines": {
+    "node": ">=6"
+  },
+  "license": "ISC",
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "proseWrap": "always"
+  }
+}
