@@ -34,6 +34,7 @@ ruleTester.run('no-unreachable', rule, {
     'condition1 || condition2 ? !condition1 ? x : y : z;',
     'const getFee = (user) => user.isMember ? 3.00 : user.isFounder ? 2.00 : 4.00;',
     'const getFee = (user) => user.isMember ? 3.00 : !user.isFounder ? 2.00 : 4.00;',
+    'const isDeprecated = (typeof rule === "function") ? rule.deprecated : rule.meta.deprecated;',
     {
       code:
         'condition3 || condition1 ? condition1 && condition2 ? condition1 || condition2 ? w : x : y : z;',
