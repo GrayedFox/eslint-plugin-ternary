@@ -99,7 +99,8 @@ ruleTester.run('no-unreachable', rule, {
       ]
     },
     {
-      code: 'condition1 && !((condition2)) && (((condition3))) ? 2.00 : condition2 ? 3.00 : 4.00;',
+      code:
+        'condition1 && !(!(!condition2)) && (((condition3))) ? 2.00 : condition2 ? 3.00 : 4.00;',
       errors: [
         {
           messageId: 'duplicateInvertedCondition',
