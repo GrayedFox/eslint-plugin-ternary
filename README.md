@@ -14,8 +14,9 @@ recommended by this plugin.
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Rules](#rules)
   - [Recommended Config](#recommended-config)
+- [Rules](#rules)
+- [Demo](#demo)
 - [Maintainers](#maintainers)
 - [License](#license)
 
@@ -71,10 +72,12 @@ or start with the recommended rule set:
 
 The recommended plugin configuration will:
 
+- allow single-line and multi-line ternaries
+- enforce multi-line ternary conditions to have precedent (same line) operators
 - forbid the use of ternary operators for default assignment
 - forbid identical left and right-hand ternary expressions
 - forbid equivalent and superfluous ternary conditions (test statements)
-- warn when nested ternaries are not in the truthy/left-hand/consequent position
+- forbid nested ternaries from appearing anywhere else but in the truthy/left-hand/consequent position
 
 Here's why:
 
@@ -106,6 +109,15 @@ const thing = condition1 || condition2 ? condition3 ? 'x' : 'y' : 'z';
 const fn = (x, y) => x ? 1 : y ? 2 : 3
 // Error: nested ternary conditions should appear as consequent (truthy) clause. Prefer:
 const fn = (x, y) => x ? y ? 1 : 2 : 3
+
+// Here this multi-line ternary does not have it's operators on the same line
+condition ?
+  'x' :
+  'y'
+// Error: '?' and 'e' should be placed at the beginning of the line. This can be automatically fixed to:
+condition
+  ? 'x'
+  : 'y'
 ```
 
 It might at first seem strange to prefer that nested (or chained) ternary conditions appear
@@ -130,6 +142,7 @@ checkout [this fiddle][1].
 | [`no-unreachable`][no-unreachable]                       | Forbid equivalent nested ternary conditions which causes unreachable code.       | :bangbang:  |          |
 | [`no-unneeded`][no-unneeded]                             | Forbid ternary operators that are strictly unnecessary.                          | :bangbang:  | :wrench: |
 | [`nested`][nested]                                       | Control where nested ternary operators can appear inside of a parent ternary     | :bangbang:  |          |
+| [`operator-linebreak`][operator-linebreak]               | Control where ternary and other symbols (?, :) should appear on newlines         | :bangbang:  | :wrench: |
 
 **Key**
 
@@ -139,9 +152,9 @@ checkout [this fiddle][1].
 | :warning:  | Reports as warning in recommended configuration |
 | :wrench:   | Rule is fixable with `eslint --fix`             |
 
-## To Do
+## Demo
 
-- Write a rule that mimics the behaviour of operator line breaks but only for ternary operators
+[![ternary linting demo](./media/eslint-plugin-demo.gif)](./media/eslint-plugin-demo.gif)
 
 ## Maintainers
 
@@ -164,5 +177,5 @@ made out to be.
 [no-unreachable]: docs/rules/no-unreachable.md
 [no-unneeded]: https://eslint.org/docs/rules/no-unneeded-ternary
 [nested]: https://github.com/getify/eslint-plugin-proper-ternary#then-nesting
-[operator-linebreaks]: https://eslint.org/docs/rules/operator-linebreak
+[operator-linebreak]: https://eslint.org/docs/rules/operator-linebreak
 [@GrayedFox]: https://github.com/grayedfox
