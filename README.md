@@ -165,3 +165,4 @@ made out to be.
 [no-unneeded]: https://eslint.org/docs/rules/no-unneeded-ternary
 [nested]: https://github.com/getify/eslint-plugin-proper-ternary#then-nesting
 [operator-linebreaks]: https://eslint.org/docs/rules/operator-linebreak
+[@GrayedFox]: https://github.com/grayedfox

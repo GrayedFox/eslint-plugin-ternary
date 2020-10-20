@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-ternary",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Catch logical and conditional errors inside of ternary conditions.",
   "keywords": [
     "eslint",
@@ -14,7 +14,10 @@
   "repository": "grayedfox/eslint-plugin-ternary",
   "scripts": {
     "test": "mocha tests --recursive",
-    "test:cli": "mocha"
+    "test:cli": "mocha",
+    "lint": "eslint .",
+    "lint:cli": "eslint",
+    "lint:fix": "eslint --fix ."
   },
   "dependencies": {
     "requireindex": "^1.2.0"
