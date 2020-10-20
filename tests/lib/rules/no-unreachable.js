@@ -47,7 +47,7 @@ ruleTester.run('no-unreachable', rule, {
     {
       code:
         "condition[0] === '!' && operators.length > 0 ? condition : operators.join('') + condition",
-      options: [{ allowDuplicateOrConditions: true }]
+      options: [{ allowDuplicateOrConditions: false }]
     }
   ],
 

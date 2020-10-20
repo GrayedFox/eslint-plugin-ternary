@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-ternary",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Catch logical and conditional errors inside of ternary conditions.",
   "keywords": [
     "eslint",
