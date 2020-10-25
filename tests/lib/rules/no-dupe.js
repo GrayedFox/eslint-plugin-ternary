@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/no-dupe.js')
+const { rules } = require('../../../lib/index')
 
 const RuleTester = require('eslint').RuleTester
 const ruleTester = new RuleTester({
@@ -21,7 +21,7 @@ const ruleTester = new RuleTester({
 // Tests
 //------------------------------------------------------------------------------
 
-ruleTester.run('no-dupe', rule, {
+ruleTester.run('no-dupe', rules['no-dupe'], {
   valid: [
     'isMember ? 2.00 : 3.00;',
     'formula = condition && condition1 ? User.months * currentRate : User.months * oldRate',

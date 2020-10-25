@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/nesting.js')
+const { rules } = require('../../../lib/index')
 
 const RuleTester = require('eslint').RuleTester
 const ruleTester = new RuleTester({
@@ -21,7 +21,7 @@ const ruleTester = new RuleTester({
 // Tests
 //------------------------------------------------------------------------------
 
-ruleTester.run('nesting', rule, {
+ruleTester.run('nesting', rules['nesting'], {
   valid: [
     'isMember ? 2.00 : 3.00;',
     'condition1 ? foo() : condition2 ? bar() : condition3 ? baz() : qux()',

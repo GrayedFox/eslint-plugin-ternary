@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/no-unreachable')
+const { rules } = require('../../../lib/index')
 
 const RuleTester = require('eslint').RuleTester
 const ruleTester = new RuleTester({
@@ -21,7 +21,7 @@ const ruleTester = new RuleTester({
 // Tests
 //------------------------------------------------------------------------------
 
-ruleTester.run('no-unreachable', rule, {
+ruleTester.run('no-unreachable', rules['no-unreachable'], {
   valid: [
     "!user.isMember ? user.isFounder ? 'Founder' : 'Member' : 'Guest';",
     'user.isMember ? !user.isFounder ? x : y : z;',
