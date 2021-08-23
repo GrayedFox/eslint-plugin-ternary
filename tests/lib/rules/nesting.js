@@ -1,5 +1,6 @@
 /**
  * @fileoverview Disallow ternaries to be nested outside of approved positions
+ * and enforces a maximum allowed depth, if specified
  * @author Che Fisher
  */
 'use strict'
@@ -30,6 +31,18 @@ ruleTester.run('nesting', rules['nesting'], {
     {
       code: 'const fn = (x, y, z) => (x ? true : false) ? (y ? 1 : 2) : (z ? 3 : 4)',
       options: [{ alternate: true, consequent: true, test: true }]
+    },
+    {
+      code: 'const fn = () => a ? b ? c ? d ? e ? f ? 1 : 2 : 3 : 4 : 5 : 6 : g ? 7 : 8',
+      options: [{ depth: 6 }]
+    },
+    {
+      code: 'x ? y ? z ? 1 : 2 : 3 : 4',
+      options: [{ depth: 3 }]
+    },
+    {
+      code: 'foo() ? 1 : 2',
+      options: [{ depth: 0 }]
     }
   ],
 
@@ -97,6 +110,46 @@ ruleTester.run('nesting', rules['nesting'], {
         },
         {
           messageId: 'forbiddenAlt',
+          type: 'ConditionalExpression'
+        }
+      ]
+    },
+    {
+      code: 'x ? y ? z ? 1 : 2 : 3 : 4',
+      options: [{ depth: 1 }],
+      errors: [
+        {
+          messageId: 'forbiddenDepth',
+          type: 'ConditionalExpression'
+        }
+      ]
+    },
+    {
+      code: 'x ? 1 ? y ? 2 : z : 3 : 4',
+      options: [{ depth: 0 }],
+      errors: [
+        {
+          messageId: 'forbiddenDepth',
+          type: 'ConditionalExpression'
+        }
+      ]
+    },
+    {
+      code: 'a ? b ? c ? d ? e ? f ? g ? 1 : 2 : 3 : 4 : 5 : 6 : 7 : 8',
+      options: [{ depth: 5 }],
+      errors: [
+        {
+          messageId: 'forbiddenDepth',
+          type: 'ConditionalExpression'
+        }
+      ]
+    },
+    {
+      code: 'foo() ? bar() ? 1 : 2 : 3',
+      options: [{ depth: 0 }],
+      errors: [
+        {
+          messageId: 'forbiddenDepth',
           type: 'ConditionalExpression'
         }
       ]

@@ -15,10 +15,13 @@ recommended by this plugin.
 - [Installation](#installation)
 - [Usage](#usage)
   - [Recommended Config](#recommended-config)
+  - [Why Ternary Consequents](#why-nest-ternaries-as-consequents)
 - [Rules](#rules)
 - [Demo](#demo)
+- [Release Notes](#release-notes)
 - [Maintainers](#maintainers)
 - [License](#license)
+- [Futher Reading](#further-reading)
 
 ## Installation
 
@@ -82,11 +85,12 @@ The recommended plugin configuration will:
 Here's why:
 
 ```js
+// Here the entire tenary operator is unneeded
 let isYes = answer === 1 ? true : false
 // Error: unnecessary ternary. The above can be automatically fixed to:
 let isYes = answer === 1
 
-// Here, user.isMember can be truthy or falsy and the returned value will still be 2.00
+// Here user.isMember can be truthy or falsy and the returned value will still be 2.00
 const getFee = user => user.isMember ? 2.00 : 2.00
 // Error: identical left and right-hand expressions '2.00'. What was probably meant:
 const getFee = user => user.isMember = 2.00 : 3.00
@@ -97,18 +101,13 @@ condition1 && condition2 ? condition2 ? 'x' : 'y' : 'z'
 condition1 ? condition2 ? 'x' : 'y' : 'z'
 
 // Here each ternary test is logically equivalent.
-const result = condition1 || condition2 ? condition2 || condition1 ? 'x' : 'y' : 'z';
+const result = condition1 || condition2 ? condition2 || condition1 ? 'x' : 'y' : 'z'
 // Error: equivalent OR ternary conditions 'condition2 || condition1'
 
 // Here condition2 is superfluous, although this does not technically result in unreachable code
-const thing = condition1 || condition2 ? condition2 || condition3 ? 'x' : 'y' : 'z';
+const thing = condition1 || condition2 ? condition2 || condition3 ? 'x' : 'y' : 'z'
 // Error: duplicate ternary OR conditions 'condition2'. What was perhaps meant:
-const thing = condition1 || condition2 ? condition3 ? 'x' : 'y' : 'z';
-
-// Here, we have a ternary nested as the right-hand value of a parent ternary:
-const fn = (x, y) => x ? 1 : y ? 2 : 3
-// Error: nested ternary conditions should appear as consequent (truthy) clause. Prefer:
-const fn = (x, y) => x ? y ? 1 : 2 : 3
+const thing = condition1 || condition2 ? condition3 ? 'x' : 'y' : 'z'
 
 // Here this multi-line ternary does not have it's operators on the same line
 condition ?
@@ -118,18 +117,67 @@ condition ?
 condition
   ? 'x'
   : 'y'
+  
+// Here we have a ternary nested as the right-hand value of a parent ternary:
+const fn = (x, y) => x ? 1 : y ? 2 : 3
+// Error: nested ternary conditions should appear as consequent (truthy) clause. Prefer:
+const fn = (x, y) => x ? y ? 1 : 2 : 3
 ```
+
+### Why Nest Ternaries As Consequents
 
 It might at first seem strange to prefer that nested (or chained) ternary conditions appear
 consequentially but there are several good reasons for this:
 
 1. All of the test conditions are grouped on the left
 2. All possible return values are grouped on the right
-3. It makes one-line ternary chains more readable/understandable and opinionated
+3. It makes nested ternary conditions more readable and opinionated
 4. It forces us to think about test condition order. The 1st condition being tested inside a
    condition chain should be the most determinate (i.e early on conditions should matter the most)
+5. It forces the developer to factor in all conditions when evaluating what expression should be
+   returned
+
+Take the example functions above. In the first example, the `y` condition is ignored, since if
+`x` is truthy the function will always return 1. In the second example `1` will only be returned if
+both `x` _and_ `y` are truthy. If it really is integral that your code does something based
+on a single condition it probably shouldn't appear in a nested ternary condition in the first place.
+In that case use a simple if statement and ensure your code checks that condition as soon as it can
+be safely checked:
+
+```
+// the below is equivalent to: x ? 1 : y ? 2 : 3
+const fn = (x, y) => {
+  if (x)
+    return 1
+  
+  y ? 2 : 3
+}
+```
 
 This is also why it is common practise to handle errors at the beginning of a code block.
+
+As for grouping test conditions, here is an expanded version of the other nested ternary:
+
+```
+// the below is equivalent to: x ? y ? 1 : 2 : 3
+const fn = (x, y) => {
+  if (x && y)
+    return 1
+   
+  if (y)  // if y is true and we reach this part of the code x must be false
+    return 2
+  else
+    return 3
+}
+```
+
+In the above expanded ternary example, from first glance it might not be clear that the only way
+the function returns 3 is if both X and Y are false. We could of course rewrite it to make that
+explicit but then we are adding superfluous if conditions and in fact increasing code complexity.
+
+In this case one could argue that the nested ternary function really is easier to comprehend
+than the expanded function, so we are not saving lines for the sake of being fancy, but for the
+sake of clarity and readability.
 
 For a more detailed explanation of this recommended setting (one that includes data structures)
 checkout [this fiddle][1].
@@ -141,7 +189,7 @@ checkout [this fiddle][1].
 | [`no-dupe`][no-dupe]                                     | Forbid identical left and right-hand ternary expressions.                        | :bangbang:  |          |
 | [`no-unreachable`][no-unreachable]                       | Forbid equivalent nested ternary conditions which causes unreachable code.       | :bangbang:  |          |
 | [`no-unneeded`][no-unneeded]                             | Forbid ternary operators that are strictly unnecessary.                          | :bangbang:  | :wrench: |
-| [`nested`][nested]                                       | Control where nested ternary operators can appear inside of a parent ternary     | :bangbang:  |          |
+| [`nesting`][nesting]                                     | Control where nested ternary operators can appear inside of a parent ternary     | :bangbang:  |          |
 | [`operator-linebreak`][operator-linebreak]               | Control where ternary and other symbols (?, :) should appear on newlines         | :bangbang:  | :wrench: |
 
 **Key**
@@ -156,13 +204,28 @@ checkout [this fiddle][1].
 
 [![ternary linting demo](./media/eslint-plugin-demo.gif)](./media/eslint-plugin-demo.gif)
 
+## Release Notes
+
+v1.0.3
+- add demo to readme
+- fix empty string being reported when OR duplicate exists
+- extend recommended config to enforce ternary operators before expressions on multi line ternary
+
+v1.0.4
+- make plugin dependency free
+- update dev deps
+
+v2.0.0
+- fix depth option not being respected (fixing this bug introduces a breaking change)
+- update dev deps to next major versions
+
 ## Maintainers
 
 - Che Fisher - [@GrayedFox][]
 
 ## License
 
-- (c) 2020 Che Fisher <mailto:che.fisher@gmail.com> - ISC license.
+- (c) 2020 Che Fisher <mailto:che.fisher@hey.com> - ISC license.
 
 ## Further Reading
 
@@ -176,6 +239,6 @@ made out to be.
 [no-dupe]: docs/rules/no-dupe.md
 [no-unreachable]: docs/rules/no-unreachable.md
 [no-unneeded]: https://eslint.org/docs/rules/no-unneeded-ternary
-[nested]: https://github.com/getify/eslint-plugin-proper-ternary#then-nesting
+[nesting]: docs/rules/nesting.md
 [operator-linebreak]: https://eslint.org/docs/rules/operator-linebreak
 [@GrayedFox]: https://github.com/grayedfox

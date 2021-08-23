@@ -1,11 +1,12 @@
 # Control where and how deep ternary operators can be nested (#nesting)
 
 This rule controls at what position a ternary operator can be nested within another ternary
-operator.
+operator and what level of nesting is allowed.
 
 ## Rule Details
 
-This rule requires nested ternary operators appear at a certain position.
+This rule requires nested ternary operators appear at a certain position and do not go past
+a certain depth.
 
 All ternary operators have 3 clauses: a test, a consequent, and an alternate.
 
@@ -17,10 +18,10 @@ const result = test ? consequent : alternate
 
 All of the options for this rule can be configured individually or combined.
 
-- `nesting: ["error", { "test": false, "consequent": true, "alternate": true }]` (default) allows
-  ternaries to be nested as a consequent or alternate expression
-- `nesting: ["error", { "test": false, "consequent": true, "alternate": false }]` (recommended)
-  only allow ternaries to be nested as a consequent expression
+- `nesting: ["error", { "test": false, "consequent": true, "alternate": true, "depth": -1 }]` (default) allows
+  ternaries to be nested as a consequent or alternate expression at any depth level
+- `nesting: ["error", { "test": false, "consequent": true, "alternate": false, "depth": -1 }]` (recommended)
+  only allow ternaries to be nested as a consequent expression at any depth level
 
 ### test
 
